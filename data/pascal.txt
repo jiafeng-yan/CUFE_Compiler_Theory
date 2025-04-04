@@ -1,0 +1,14 @@
+program SumOfNumbers;
+var
+  i, sum: Integer;
+begin
+  sum := 0;
+  
+  for i := 1 to 100 do
+    sum := sum + i;
+    
+  writeln('The sum of numbers from 1 to 100 is: ', sum);
+  
+  writeln('Press Enter to exit...');
+  readln;
+end.
