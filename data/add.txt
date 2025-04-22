@@ -1,0 +1,10 @@
+begin
+  sum := 0;
+  i := 1;
+
+  while i <> 101:
+    sum = sum + i;
+
+  mean := sum / 100;
+    
+end

@@ -8,27 +8,30 @@ ID [A-Za-z][A-Za-z0-9]*
 
 %%
 {DIGIT}+    {
-    printf("整数: %s (%d)\n", yytext, atoi(yytext));
+    printf("整数:  \t\t %s (%d)\n", yytext, atoi(yytext));
 }
 {DIGIT}+"."{DIGIT}*     {
-    printf("浮点数: %s (%g)\n", yytext, atof(yytext));
+    printf("浮点数:  \t %s (%g)\n", yytext, atof(yytext));
 }
 if|then|begin|end.|procedure|function|program|var|to|do    {
-    printf("关键字: %s\n", yytext);
+    printf("关键字:  \t %s\n", yytext);
 }
 {ID}    {
-    printf("标识符: %s\n", yytext);
+    printf("标识符:  \t %s\n", yytext);
 }
 "+"|"-"|"*"|"/"|"^"|":="     {
-    printf("运算符 r: %s\n", yytext);
+    printf("运算符 r:  \t %s\n", yytext);
+}
+":"|"("|")"     {
+    printf("辅助符号 r:  \t %s\n", yytext);
 }
 '[^']*'     {
-    printf("字符串：%s\n", yytext);
+    printf("字符串： \t %s\n", yytext);
 }
 
 "{"[^}\n]*"}"   /* 忽略注释 */
-[ \t\n;,]+         /* 忽略空白字符 */
-.       printf("不能识别字符：%s\n", yytext);
+[ \t\n\r;,]+         /* 忽略空白字符 */
+.       printf("不能识别字符： \t %s\n", yytext);
 
 %%
 main(argc, argv)

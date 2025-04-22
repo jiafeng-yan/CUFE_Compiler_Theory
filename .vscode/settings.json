@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.py": "python",
+        "*.java": "java",
+        "YFFX.C": "cpp",
+        "string": "c",
+        "format": "c",
+        "CFFX.C": "cpp"
+    }
+}

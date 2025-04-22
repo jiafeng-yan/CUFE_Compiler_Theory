@@ -439,8 +439,8 @@ char *yytext;
 #line 1 "count.l"
 /* 何炎祥编《编译原理》 例13.1 (P217) */
 #line 3 "count.l"
-    int num_chars = 0, num_lines = 0;
-    /* must with indent */
+    int num_chars = 0, num_lines = 0;   
+    /* C 语言全局变量，must with indent (任何非顶行文字将被直接拷贝到输出文件中, same as %{ ... %}) */
 #line 445 "lex.yy.c"
 
 #define INITIAL 0
