@@ -9,3 +9,4 @@ gcc ./analyzer.c
 # ## 实验2  Example
 # cd ./experiments/LexicalAnalyzer
 # gcc CFFX.C
+# ...

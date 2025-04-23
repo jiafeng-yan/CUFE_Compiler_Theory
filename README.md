@@ -1,5 +1,11 @@
 # A Course Design of Compiler Theory
 
+## Usage
+```bash
+git clone git@github.com:jiafeng-yan/CUFE_Compiler_Theory.git
+cd ./CUFE_Compiler_Theory
+```
+You can download the zip package alternatively.
 
 ## Enviroment
 基于 Ubuntu24.04 实现
