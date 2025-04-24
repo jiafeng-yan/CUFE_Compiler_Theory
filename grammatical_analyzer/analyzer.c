@@ -35,7 +35,7 @@ char parse_ID(char ch, FILE *file) {
     if (!is_alpha(ch)) return EOF;
     
     // Print or store the identifier if needed
-    printf("ID: %c", ch);
+    printf("ID:  %c", ch);
     
     // Continue reading valid ID characters (alphabets and digits)
     ch = fgetc(file);
@@ -52,31 +52,40 @@ char parse_NUM(char ch, FILE *file) {
     ch = ignore_blank(ch, file);
 
     // Check for negative number
-    bool is_negative = false;
+    bool negative = false;
+    bool decimal = false;
     if (ch == '-') {
-        is_negative = true;
+        negative = true;
         printf("NUM: -");
+
         ch = fgetc(file);
-        // After a minus sign, we must have at least one digit
-        if (!is_digit(ch)) return EOF;
-    } else if (!is_digit(ch)) {
-        // If not a negative sign and not a digit, then it's an error
+        if(ch == '.') {
+            decimal = true;
+            printf("0."); 
+        } else if(is_digit(ch)) {
+            printf("%c", ch);
+        } else {
+            return EOF;
+        }
+    } else if (is_digit(ch)) {
+        printf("NUM: %c", ch);
+    } else if(ch == '.') {
+        printf("NUM: 0.");
+        decimal = true;
+    } else {
         return EOF;
     }
     
-    // If it's a positive number, start printing
-    if (!is_negative) {
-        printf("NUM: %c", ch);
-    } else {
-        printf("%c", ch); // Already printed the negative sign
-    }
-    
-    // Continue reading digits
     ch = fgetc(file);
-    while (is_digit(ch)) {
+    while(is_digit(ch) || ch == '.') {
+        if(ch == '.') {
+            if(decimal) return EOF;
+            decimal = true;
+        }
         printf("%c", ch);
         ch = fgetc(file);
     }
+    
     printf("\n");
     
     return ch; // Return the first character not part of the NUM
@@ -88,10 +97,10 @@ char parse_Z(char ch, FILE *file) {
     ch = ignore_blank(ch, file);
 
     if(ch == '(') {                         //  (
-        printf(" ( \n");
+        printf("\t( \n");
         ch = parse_X(fgetc(file), file);    //  X
         if(ch != ')') return EOF;           //  )
-        printf(" ) \n");
+        printf("\t) \n");
         ch = fgetc(file);
     } else if(is_alpha(ch)) {               
         ch = parse_ID(ch, file);            //  ID
@@ -107,7 +116,7 @@ char parse_Y(char ch, FILE *file) {
 
     ch = ignore_blank(ch, file);            //  {
     while(ch == '*' || ch == '/') {         //      [* | /]
-        printf(" %c \n", ch);
+        printf("\t%c \n", ch);
         ch = parse_Z(fgetc(file), file);    //      Z
         ch = ignore_blank(ch, file);        //  }
     }
@@ -120,7 +129,7 @@ char parse_X(char ch, FILE *file) {
 
     ch = ignore_blank(ch, file);            //  {
     while(ch == '+' || ch == '-') {         //      [+ | -]
-        printf(" %c \n", ch);
+        printf("\t%c \n", ch);
         ch = parse_Y(fgetc(file), file);    //      Y
         ch = ignore_blank(ch, file);        //  }
     }
@@ -134,10 +143,10 @@ char parse_C(char ch, FILE *file) {
     ch = ignore_blank(ch, file);
     if(ch != ':') return EOF;               //  :=
     if(fgetc(file) != '=') return EOF;
-    printf(" := \n");
+    printf("\t:= \n");
 
     ch = ignore_blank(fgetc(file), file);     //  X
-    ch = parse_X(fgetc(file), file);
+    ch = parse_X(ch, file);
     return ch;
 }
 
@@ -146,7 +155,7 @@ char parse_B(char ch, FILE *file) {
 
     ch = ignore_blank(ch, file);            //  {
     while(ch == ';') {                      //      ;
-        printf(" ; \n");
+        printf("\t; \n");
         ch = parse_C(fgetc(file), file);    //      C
         ch = ignore_blank(ch, file);        //  }
     }

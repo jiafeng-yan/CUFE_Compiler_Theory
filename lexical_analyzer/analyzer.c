@@ -66,41 +66,49 @@ void analyzer(char *file_path)
             }
             if (syn == 10)
             {
-                printf("( %d, '%s' )\n", syn, token);
+                printf("(    %d   ,    '%s' \t)\n", syn, token);
             }
             else
             {
-                printf("(  %d, %s )\n", syn, token);
+                printf("(     %d   ,    %s \t\t)\n", syn, token);
             }
         }
-        else if (is_digit(ch))
+        else if (is_digit(ch) || ch == '.')
         {
-            int sum = 0;
-            while (is_digit(ch))
-            {
-                sum = sum * 10 + (ch - '0');
+            int index = 0;
+            bool decimal = false;
+            while(is_digit(ch) || ch == '.') {
+                if(ch == '.') {
+                    if(decimal) {
+                        printf("\n Error: Decimal with two dot!\n");
+                        return;
+                    }
+                    decimal = true;
+                }
+                token[index++] = ch;
                 ch = fgetc(file);
             }
-            printf("( 11,  %d )\n", sum);
+            token[index] = '\0';
+            printf("(    11   ,     %s \t)\n", token);
         }
         else
         {
             switch (ch)
             {
             case '+':
-                printf("( 13,  +  )\n");
+                printf("(    13   ,     +  \t)\n");
                 ch = fgetc(file);
                 break;
             case '-':
-                printf("( 14,  -  )\n");
+                printf("(    14   ,     -  \t)\n");
                 ch = fgetc(file);
                 break;
             case '*':
-                printf("( 15,  *  )\n");
+                printf("(    15   ,     *  \t)\n");
                 ch = fgetc(file);
                 break;
             case '/':
-                printf("( 16,  /  )\n");
+                printf("(    16   ,     /  \t)\n");
                 ch = fgetc(file);
                 break;
             case ':':
@@ -108,12 +116,12 @@ void analyzer(char *file_path)
                 ch = fgetc(file);
                 if (ch == '=')
                 {
-                    printf("( 18, := )\n");
+                    printf("(    18   ,    := \t)\n");
                     ch = fgetc(file);
                 }
                 else
                 {
-                    printf("( 17, :  )\n");
+                    printf("(    17   ,    :  \t)\n");
                 }
                 break;
             }
@@ -122,17 +130,17 @@ void analyzer(char *file_path)
                 ch = fgetc(file);
                 if (ch == '>')
                 {
-                    printf("( 21, <> )\n");
+                    printf("(    21   ,    <> \t)\n");
                     ch = fgetc(file);
                 }
                 else if (ch == '=')
                 {
-                    printf("( 22, <= )\n");
+                    printf("(    22   ,    <= \t)\n");
                     ch = fgetc(file);
                 }
                 else
                 {
-                    printf("( 20, <  )\n");
+                    printf("(    20   ,    <  \t)\n");
                 }
                 break;
             }
@@ -141,37 +149,37 @@ void analyzer(char *file_path)
                 ch = fgetc(file);
                 if (ch == '=')
                 {
-                    printf("( 24, >= )\n");
+                    printf("(    24   ,    >= \t)\n");
                     ch = fgetc(file);
                 }
                 else
                 {
-                    printf("( 23, >  )\n");
+                    printf("(    23   ,    >  \t)\n");
                 }
                 break;
             }
             case '=':
-                printf("( 25, =  )\n");
+                printf("(    25   ,    =  \t)\n");
                 ch = fgetc(file);
                 break;
             case ';':
-                printf("( 26, ;  )\n");
+                printf("(    26   ,    ;  \t)\n");
                 ch = fgetc(file);
                 break;
             case '(':
-                printf("( 27, (  )\n");
+                printf("(    27   ,    (  \t)\n");
                 ch = fgetc(file);
                 break;
             case ')':
-                printf("( 28, )  )\n");
+                printf("(    28   ,    )  \t)\n");
                 ch = fgetc(file);
                 break;
             case '#':
-                printf("( 0 , #  )\n");
+                printf("(    0    ,    #  \t)\n");
                 ch = fgetc(file);
                 break;
             default:
-                printf("(unknown, %c", ch);
+                printf("(   unknown   ,    %c \t)\n", ch);
                 ch = fgetc(file);
                 break;
             }
